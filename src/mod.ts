@@ -45,6 +45,7 @@ class LazyArray<T> {
 }
 
 import { $ } from "https://deno.land/x/iteruyo@v0.3.0/mod.ts"
+export * from "https://deno.land/x/iteruyo@v0.3.0/mod.ts"
 
 function* alternate<T>(as: Iterable<T>, bs:Iterable<T>) {
     const aIterator = as[Symbol.iterator]()
