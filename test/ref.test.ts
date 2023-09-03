@@ -1,10 +1,10 @@
 import { assertEquals } from "std/assert"
 
-import { calc } from "../src/mod.ts"
+import { call } from "../src/mod.ts"
 
 Deno.test("Ref - And", () => {
     assertEquals(
-        calc({ref: "a"})({
+        call({ref: "a"}, {
             and: [
                 {def: ["a", {literal: "hello"}]},
                 {def: ["b", {literal: "world"}]},
@@ -13,7 +13,7 @@ Deno.test("Ref - And", () => {
         {literal: "hello"},
     )
     assertEquals(
-        calc({ref: "b"})({
+        call({ref: "b"}, {
             and: [
                 {def: ["a", {literal: "hello"}]},
                 {def: ["b", {literal: "world"}]},
@@ -25,7 +25,7 @@ Deno.test("Ref - And", () => {
 
 Deno.test("Ref - Nested And", () => {
     assertEquals(
-        calc({ref: "b"})({
+        call({ref: "b"}, {
             and: [
                 {def: ["a", {literal: "hello"}]},
                 {and: [

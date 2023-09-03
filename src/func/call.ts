@@ -1,9 +1,9 @@
-import { Expr, any } from "./Expr.ts"
-import { and } from "./func/mod.ts"
+import { Expr, any } from "../Expr.ts"
+import { and } from "./and.ts"
 
 import { match, P } from "ts-pattern"
 
-export const calc = (query: Expr) => (expr: Expr): Expr => {
+export const call = (query: Expr, expr: Expr): Expr => {
     return match(query)
     .with({ref: P.select()}, name =>
         match(expr)
@@ -12,8 +12,8 @@ export const calc = (query: Expr) => (expr: Expr): Expr => {
         })
         .with({and: [P.select("a"), P.select("b")]}, ({a, b}) => {
             return and(
-                calc({ref: name})(a),
-                calc({ref: name})(b),
+                call({ref: name}, a),
+                call({ref: name}, b),
             )
         })
         .otherwise(() => any)

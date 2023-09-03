@@ -1,3 +1,3 @@
-export * from "./calc.ts"
+export * from "./func/mod.ts"
 export * from "./expand.ts"
 export * from "./Expr.ts"

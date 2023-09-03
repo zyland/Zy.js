@@ -1,5 +1,5 @@
 import { Expr } from "./Expr.ts"
-import { calc } from "./calc.ts"
+import { call } from "./func/mod.ts"
 
 import { match, P } from "ts-pattern"
 import { $ } from "iteruyo"
@@ -42,7 +42,7 @@ function* alternate<T>(as: Iterable<T>, bs:Iterable<T>) {
 }
 
 export const expand = (query: Expr) => function*(expr: Expr): Generator<Expr, void, undefined> {
-    yield* match(calc(query)(expr))
+    yield* match(call(query, expr))
     .with({or: [P.select("a"), P.select("b")]}, function*({a, b}) {
         yield* match([a, b])
         .with([{literal: P.string}, P.any], function*() {
