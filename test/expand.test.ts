@@ -1,6 +1,6 @@
 import { assertEquals } from "std/assert"
 
-import { Expr, expand, $, any } from "../src/mod.ts"
+import { Expr, expand, $ as Iter, any } from "../src/mod.ts"
 
 Deno.test("Expand - Literal", () => {
     assertEquals(
@@ -75,7 +75,7 @@ Deno.test("Expand - Recursion", () => {
             ]},
         ]}
         assertEquals(
-            $(expand({ref: "pat"})({def: ["pat", pat]})).take(10).toArray(),
+            Iter(expand({ref: "pat"})({def: ["pat", pat]})).take(10).toArray(),
             [
                 { literal: "" },
                 { literal: "()" },

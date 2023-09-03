@@ -1,9 +1,10 @@
 import { Expr, any } from "../Expr.ts"
 
-import { match, P } from "ts-pattern"
+import { match } from "ts-pattern"
+import { $_ } from "util/select.ts"
 
 export const and = (a: Expr, b: Expr): Expr =>
     match([a, b])
-    .with([P.select(), any], x => x)
-    .with([any, P.select()], x => x)
+    .with([$_, any], x => x)
+    .with([any, $_], x => x)
     .otherwise(_ => ({and: [a, b]}))

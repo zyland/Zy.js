@@ -2,7 +2,8 @@ import { Expr } from "./Expr.ts"
 import { call } from "./func/mod.ts"
 
 import { match, P } from "ts-pattern"
-import { $ } from "iteruyo"
+import { $ as Iter } from "iteruyo"
+import { $a, $b } from "util/select.ts"
 export * from "iteruyo"
 
 class LazyArray<T> {
@@ -43,7 +44,7 @@ function* alternate<T>(as: Iterable<T>, bs:Iterable<T>) {
 
 export const expand = (query: Expr) => function*(expr: Expr): Generator<Expr, void, undefined> {
     yield* match(call(query, expr))
-    .with({or: [P.select("a"), P.select("b")]}, function*({a, b}) {
+    .with({or: [$a, $b]}, function*({a, b}) {
         yield* match([a, b])
         .with([{literal: P.string}, P.any], function*() {
             yield a
@@ -60,10 +61,10 @@ export const expand = (query: Expr) => function*(expr: Expr): Generator<Expr, vo
             )
         })
     })
-    .with({join: [P.select("a"), P.select("b")]}, ({a, b}) => {
+    .with({join: [$a, $b]}, ({a, b}) => {
         const aStash = new LazyArray(expand(a)(expr))
         const bStash = new LazyArray(expand(b)(expr))
-        return $(fill(x => !aStash.at(x), y => !bStash.at(y)))
+        return Iter(fill(x => !aStash.at(x), y => !bStash.at(y)))
             .map(([x, y]) => join(aStash.at(x), bStash.at(y)))
     })
     .otherwise(x => [x])
@@ -72,8 +73,8 @@ export const expand = (query: Expr) => function*(expr: Expr): Generator<Expr, vo
 const join = (a: Expr, b: Expr): Expr =>
     match([a, b])
     .with(
-        [{literal: P.select("x")}, {literal: P.select("y")}],
-        ({x, y}) => ({literal: x + y}),
+        [{literal: $a}, {literal: $b}],
+        ({a, b}) => ({literal: a + b}),
     )
     .otherwise(() => ({join: [a, b]}))
 
