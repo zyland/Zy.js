@@ -1,28 +1,28 @@
-import { assertEquals } from "https://deno.land/std@0.201.0/assert/mod.ts"
+import { assertEquals } from "std/assert"
 
 import { Expr, expand, $ } from "../src/mod.ts"
 
 Deno.test("Expand - Literal", () => {
     assertEquals(
-        [{literal: "a"}],
         [...expand(
             {literal: "a"}
-        )({literal: "any"})]
+        )({literal: "any"})],
+        [{literal: "a"}],
     )
 })
 
 Deno.test("Expand - Or", () => {
     assertEquals(
-        [
-            {literal: "a"},
-            {literal: "b"},
-        ],
         [...expand(
             {or: [
                 {literal: "a"},
                 {literal: "b"},
             ]}
-        )({literal: "any"})]
+        )({literal: "any"})],
+        [
+            {literal: "a"},
+            {literal: "b"},
+        ],
     )
 })
 
@@ -50,6 +50,7 @@ Deno.test("Expand - Recursion", () => {
             ]},
         ]}
         assertEquals(
+            $(expand({ref: "pat"})({def: ["pat", pat]})).take(10).toArray(),
             [
                 { literal: "" },
                 { literal: "()" },
@@ -62,6 +63,5 @@ Deno.test("Expand - Recursion", () => {
                 { literal: "()-" },
                 { literal: "(()x)" },
             ],
-            $(expand({ref: "pat"})({def: ["pat", pat]})).take(10).toArray()
         )
 })

@@ -4,6 +4,7 @@
     },
     "imports": {
         "ts-pattern": "https://esm.sh/ts-pattern@5.0.5",
-        "iteruyo": "https://deno.land/x/iteruyo@v0.3.0/mod.ts"
+        "iteruyo": "https://deno.land/x/iteruyo@v0.3.0/mod.ts",
+        "std/assert": "https://deno.land/std@0.201.0/assert/mod.ts"
     }
 }

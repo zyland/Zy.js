@@ -4,3 +4,7 @@ export type Expr =
     | {def: [string, Expr]}
     | {join: [Expr, Expr]}
     | {or: [Expr, Expr]}
+    | {and: [Expr, Expr]}
+    | {symbol: string}
+
+export const any = {symbol: "any"}
