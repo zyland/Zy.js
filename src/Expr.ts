@@ -6,5 +6,6 @@ export type Expr =
     | {or: [Expr, Expr]}
     | {and: [Expr, Expr]}
     | {symbol: string}
+    | {call: [Expr, Expr]}
 
 export const any = {symbol: "any"}

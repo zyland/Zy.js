@@ -18,7 +18,5 @@ export const call = (query: Expr, expr: Expr): Expr => {
         })
         .otherwise(() => any)
     )
-    .with({and: [P.select("a"), P.select("b")]}, ({a, b}) => and(a, b))
-    .with(P.select({literal: P.string}), x => x)
     .otherwise(q => q)
 }
