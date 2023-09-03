@@ -106,5 +106,6 @@ function* fill (
             }
             if (y < 0) y = 0
         }
+        if (isXEnd(x) || isYEnd(y)) break
     }
 }

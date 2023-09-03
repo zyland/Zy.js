@@ -26,6 +26,31 @@ Deno.test("Expand - Or", () => {
     )
 })
 
+Deno.test("Expand - Join", () => {
+    assertEquals(
+        [...expand(
+            {
+                join: [
+                    {or: [
+                        {literal: "1"},
+                        {literal: "2"},
+                    ]},
+                    {or: [
+                        {literal: "3"},
+                        {literal: "4"},
+                    ]},
+                ]
+            }
+        )(any)],
+        [
+            {literal: "13"},
+            {literal: "23"},
+            {literal: "14"},
+            {literal: "24"},
+        ],
+    )
+})
+
 Deno.test("Expand - Recursion", () => {
     const pat: Expr =
         {or: [
@@ -68,7 +93,7 @@ Deno.test("Expand - Recursion", () => {
 
 Deno.test("Expand - Join Refs", () => {
     assertEquals(
-        $(expand(
+        [...expand(
             {
                 join: [
                     {ref: "a"},
@@ -84,7 +109,7 @@ Deno.test("Expand - Join Refs", () => {
                 {literal: "3"},
                 {literal: "4"},
             ]}]},
-        ]})).take(4).toArray(),
+        ]})],
         [
             {literal: "13"},
             {literal: "23"},
