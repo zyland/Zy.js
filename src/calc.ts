@@ -1,4 +1,5 @@
 import { Expr, any } from "./Expr.ts"
+import { and } from "./func/mod.ts"
 
 import { match, P } from "ts-pattern"
 
@@ -10,15 +11,14 @@ export const calc = (query: Expr) => (expr: Expr): Expr => {
             return value
         })
         .with({and: [P.select("a"), P.select("b")]}, ({a, b}) => {
-            return calc({and: [
+            return and(
                 calc({ref: name})(a),
                 calc({ref: name})(b),
-            ]})(expr)
+            )
         })
         .otherwise(() => any)
     )
-    .with({and: [P.select(), any]}, x => x)
-    .with({and: [any, P.select()]}, x => x)
+    .with({and: [P.select("a"), P.select("b")]}, ({a, b}) => and(a, b))
     .with(P.select({literal: P.string}), x => x)
     .otherwise(q => q)
 }
