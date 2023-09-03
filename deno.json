@@ -1,5 +1,5 @@
 {
     "tasks": {
-        "build_npm": "deno run -A scripts/build_npm.ts 0.1.0"
+        "build_npm": "deno run -A scripts/build_npm.ts"
     }
 }
