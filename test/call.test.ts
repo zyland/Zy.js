@@ -2,7 +2,7 @@ import { assertEquals } from "std/assert"
 
 import { call } from "../src/mod.ts"
 
-Deno.test("Ref - And", () => {
+Deno.test("Call - Ref - And", () => {
     assertEquals(
         call({ref: "a"}, {
             and: [
@@ -23,7 +23,7 @@ Deno.test("Ref - And", () => {
     )
 })
 
-Deno.test("Ref - Nested And", () => {
+Deno.test("Call - Ref - Nested And", () => {
     assertEquals(
         call({ref: "b"}, {
             and: [
@@ -35,5 +35,17 @@ Deno.test("Ref - Nested And", () => {
             ]
         }),
         {literal: "world"},
+    )
+})
+
+Deno.test("Call - Join", () => {
+    assertEquals(
+        call({join: [{ref: "a"}, {ref: "b"}]}, {
+            and: [
+                {def: ["a", {literal: "hello"}]},
+                {def: ["b", {literal: "world"}]},
+            ]
+        }),
+        {literal: "helloworld"},
     )
 })
