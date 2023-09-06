@@ -126,5 +126,16 @@
     "https://esm.sh/v131/ts-pattern@5.0.5/denonext/ts-pattern.mjs": "cb88b9b005fdd512f6b988e99e3271f345c8fdfff0a4c65db6c56ae597aa6289",
     "https://esm.sh/v132/ts-pattern@5.0.5": "8f8e0a58e40affed16cf650c8b6a7066761b3cc5fa5b18ecfe3d6da0639327ce",
     "https://esm.sh/v132/ts-pattern@5.0.5/denonext/ts-pattern.mjs": "cb88b9b005fdd512f6b988e99e3271f345c8fdfff0a4c65db6c56ae597aa6289"
+  },
+  "npm": {
+    "specifiers": {
+      "ts-pattern@5.0.5": "ts-pattern@5.0.5"
+    },
+    "packages": {
+      "ts-pattern@5.0.5": {
+        "integrity": "sha512-tL0w8U/pgaacOmkb9fRlYzWEUDCfVjjv9dD4wHTgZ61MjhuMt46VNWTG747NqW6vRzoWIKABVhFSOJ82FvXrfA==",
+        "dependencies": {}
+      }
+    }
   }
 }

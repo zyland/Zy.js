@@ -6,6 +6,9 @@ await emptyDir("./npm");
 await build({
   entryPoints: ["./src/mod.ts"],
   outDir: "./npm",
+  importMap: "./deno.json",
+  declaration: false,
+  scriptModule: false,
   shims: {
     // see JS docs for overview and more options
     deno: true,

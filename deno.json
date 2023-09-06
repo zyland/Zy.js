@@ -3,7 +3,7 @@
         "build_npm": "deno run -A scripts/build_npm.ts"
     },
     "imports": {
-        "ts-pattern": "https://esm.sh/v132/ts-pattern@5.0.5",
+        "ts-pattern": "npm:ts-pattern@5.0.5",
         "iteruyo": "https://deno.land/x/iteruyo@v0.3.0/mod.ts",
         "std/assert": "https://deno.land/std@0.201.0/assert/mod.ts",
         "util/": "./src/util/"
