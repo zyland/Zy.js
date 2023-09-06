@@ -1,5 +1,6 @@
 import { Expr, any } from "../Expr.ts"
 import { and } from "./and.ts"
+import { join } from "./join.ts"
 
 import { match, P } from "ts-pattern"
 import { $_, $a, $b } from "util/select.ts"
@@ -19,5 +20,8 @@ export const call = (query: Expr, expr: Expr): Expr => {
         })
         .otherwise(() => any)
     )
+    .with({join: [$a, $b]}, ({a, b}) => {
+        return join(call(a, expr), call(b, expr))
+    })
     .otherwise(q => q)
 }
