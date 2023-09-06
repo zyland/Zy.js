@@ -1,5 +1,5 @@
 import { Expr } from "./Expr.ts"
-import { call } from "./func/mod.ts"
+import { call, join } from "./func/mod.ts"
 
 import { match, P } from "ts-pattern"
 import { $ as Iter } from "iteruyo"
@@ -69,14 +69,6 @@ export const expand = (query: Expr) => function*(expr: Expr): Generator<Expr, vo
     })
     .otherwise(x => [x])
 }
-
-const join = (a: Expr, b: Expr): Expr =>
-    match([a, b])
-    .with(
-        [{literal: $a}, {literal: $b}],
-        ({a, b}) => ({literal: a + b}),
-    )
-    .otherwise(() => ({join: [a, b]}))
 
 function* fill (
     isXEnd: (x: number) => boolean,
