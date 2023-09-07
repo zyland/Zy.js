@@ -4,6 +4,7 @@ import { call, join } from "./func/mod.ts"
 import { match, P } from "ts-pattern"
 import { $ as Iter } from "iteruyo"
 import { $a, $b } from "util/select.ts"
+import { f } from "util/f.ts"
 export * from "iteruyo"
 
 class LazyArray<T> {
@@ -61,7 +62,7 @@ export const expand = (query: Expr) => function*(expr: Expr): Generator<Expr, vo
             )
         })
     })
-    .with({join: [$a, $b]}, ({a, b}) => {
+    .with(f({join: [$a, $b]}), ({a, b}) => {
         const aStash = new LazyArray(expand(a)(expr))
         const bStash = new LazyArray(expand(b)(expr))
         return Iter(fill(x => !aStash.at(x), y => !bStash.at(y)))

@@ -1,6 +1,7 @@
 import { assertEquals } from "std/assert"
 
 import { call } from "../src/mod.ts"
+import { f } from "util/f.ts"
 
 Deno.test("Call - Ref - And", () => {
     assertEquals(
@@ -40,7 +41,7 @@ Deno.test("Call - Ref - Nested And", () => {
 
 Deno.test("Call - Join", () => {
     assertEquals(
-        call({join: [{ref: "a"}, {ref: "b"}]}, {
+        call(f({join: [{ref: "a"}, {ref: "b"}]}), {
             and: [
                 {def: ["a", {literal: "hello"}]},
                 {def: ["b", {literal: "world"}]},

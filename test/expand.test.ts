@@ -1,6 +1,7 @@
 import { assertEquals } from "std/assert"
 
 import { Expr, expand, $ as Iter, any } from "../src/mod.ts"
+import { f } from "util/f.ts"
 
 Deno.test("Expand - Literal", () => {
     assertEquals(
@@ -29,7 +30,7 @@ Deno.test("Expand - Or", () => {
 Deno.test("Expand - Join", () => {
     assertEquals(
         [...expand(
-            {
+            f({
                 join: [
                     {or: [
                         {literal: "1"},
@@ -40,7 +41,7 @@ Deno.test("Expand - Join", () => {
                         {literal: "4"},
                     ]},
                 ]
-            }
+            })
         )(any)],
         [
             {literal: "13"},
@@ -56,22 +57,22 @@ Deno.test("Expand - Recursion", () => {
         {or: [
             {literal: ""},
             {or: [
-                {join: [
-                    {join:
+                f({join: [
+                    f({join:
                         [
                             {literal: "("},
                             {ref: "pat"},
                         ]
-                    },
+                    }),
                     {literal: ")"},
-                ]},
-                {join: [
+                ]}),
+                f({join: [
                     {ref: "pat"},
                     {or: [
                         {literal: "x"},
                         {literal: "-"},
                     ]},
-                ]},
+                ]}),
             ]},
         ]}
         assertEquals(
@@ -94,12 +95,12 @@ Deno.test("Expand - Recursion", () => {
 Deno.test("Expand - Join Refs", () => {
     assertEquals(
         [...expand(
-            {
+            f({
                 join: [
                     {ref: "a"},
                     {ref: "b"},
                 ]
-            }
+            })
         )({and: [
             {def: ["a", {or: [
                 {literal: "1"},
