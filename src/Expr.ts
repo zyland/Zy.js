@@ -7,5 +7,6 @@ export type Expr =
     | {and: [Expr, Expr]}
     | {symbol: string}
     | {call: [Expr, Expr]}
+    | {[k: `f_${string}`]: [Expr, Expr]}
 
 export const any = {symbol: "any"}
