@@ -1,4 +1,7 @@
-import { assertEquals } from "std/assert"
+import {
+    assertEquals,
+    assertNotEquals,
+} from "std/assert"
 
 import { call } from "../src/mod.ts"
 import { f } from "util/f.ts"
@@ -48,5 +51,28 @@ Deno.test("Call - Join", () => {
             ]
         }),
         {literal: "helloworld"},
+    )
+})
+
+Deno.test("Call - Arrow - Match Literal", () => {
+    assertEquals(
+        call(
+            {arrow: [
+                {literal: "hello"},
+                {literal: "bye"},
+            ]},
+            {literal: "hello"},
+        ),
+        {literal: "bye"},
+    )
+    assertNotEquals(
+        call(
+            {arrow: [
+                {literal: "hello"},
+                {literal: "bye"},
+            ]},
+            {literal: "hell"},
+        ),
+        {literal: "bye"},
     )
 })

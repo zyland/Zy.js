@@ -21,8 +21,13 @@ export const call = (query: Expr, expr: Expr): Expr => {
         })
         .otherwise(() => any)
     )
-    .with(f({join: [$a, $b]}), ({a, b}) => {
-        return join(call(a, expr), call(b, expr))
-    })
+    .with({arrow: [{literal: $a}, $b]}, ({a, b}) =>
+        match(expr)
+        .with({literal: a}, () => b)
+        .otherwise(() => any)
+    )
+    .with(f({join: [$a, $b]}), ({a, b}) =>
+        join(call(a, expr), call(b, expr))
+    )
     .otherwise(q => q)
 }
