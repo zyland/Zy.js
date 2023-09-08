@@ -54,6 +54,18 @@ Deno.test("Call - Join", () => {
     )
 })
 
+Deno.test("Call - Math", () => {
+    assertEquals(
+        call(f({mul: [{ref: "a"}, {ref: "b"}]}), {
+            and: [
+                {def: ["a", {literal: 12}]},
+                {def: ["b", {literal: 5}]},
+            ]
+        }),
+        {literal: 60},
+    )
+})
+
 Deno.test("Call - Arrow - Match Literal", () => {
     assertEquals(
         call(

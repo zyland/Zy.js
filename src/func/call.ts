@@ -1,9 +1,15 @@
 import { Expr, any } from "../Expr.ts"
 import { and } from "./and.ts"
 import { join } from "./join.ts"
+import {
+    add,
+    sub,
+    mul,
+    div,
+} from "./math.ts"
 
 import { match, P } from "ts-pattern"
-import { $_, $a, $b } from "util/select.ts"
+import { $, $_, $a, $b } from "util/select.ts"
 import { f } from "util/f.ts"
 
 export const call = (query: Expr, expr: Expr): Expr => {
@@ -26,8 +32,19 @@ export const call = (query: Expr, expr: Expr): Expr => {
         .with({literal: a}, () => b)
         .otherwise(() => any)
     )
-    .with(f({join: [$a, $b]}), ({a, b}) =>
-        join(call(a, expr), call(b, expr))
+    .with(
+        {f: $("name"), args: $("args")},
+        ({name, args}) => (
+            {
+                join,
+                add,
+                sub,
+                mul,
+                div,
+            }[name as "join"](
+                ...args.map(arg => call(arg, expr)) as typeof args
+            )
+        )
     )
     .otherwise(q => q)
 }

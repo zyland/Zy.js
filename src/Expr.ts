@@ -1,6 +1,6 @@
 export type Expr =
     | {ref: string}
-    | {literal: string}
+    | {literal: string | number}
     | {def: [string, Expr]}
     | {or: [Expr, Expr]}
     | {and: [Expr, Expr]}
