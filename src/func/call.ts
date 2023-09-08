@@ -4,6 +4,7 @@ import { join } from "./join.ts"
 
 import { match, P } from "ts-pattern"
 import { $_, $a, $b } from "util/select.ts"
+import { f } from "util/f.ts"
 
 export const call = (query: Expr, expr: Expr): Expr => {
     return match(query)
@@ -20,7 +21,7 @@ export const call = (query: Expr, expr: Expr): Expr => {
         })
         .otherwise(() => any)
     )
-    .with({join: [$a, $b]}, ({a, b}) => {
+    .with(f({join: [$a, $b]}), ({a, b}) => {
         return join(call(a, expr), call(b, expr))
     })
     .otherwise(q => q)

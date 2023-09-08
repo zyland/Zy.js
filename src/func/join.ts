@@ -2,6 +2,7 @@ import { Expr } from "../Expr.ts"
 
 import { match } from "ts-pattern"
 import { $a, $b } from "util/select.ts"
+import { f } from "util/f.ts"
 
 export const join = (a: Expr, b: Expr): Expr =>
     match([a, b])
@@ -9,4 +10,4 @@ export const join = (a: Expr, b: Expr): Expr =>
         [{literal: $a}, {literal: $b}],
         ({a, b}) => ({literal: a + b}),
     )
-    .otherwise(() => ({join: [a, b]}))
+    .otherwise(() => f({join: [a, b]}))
