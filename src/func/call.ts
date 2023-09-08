@@ -32,6 +32,10 @@ export const call = (query: Expr, expr: Expr): Expr => {
         .with({literal: a}, () => b)
         .otherwise(() => any)
     )
+    .with({call: [$a, $b]}, ({a, b}) => call(
+        call(a, expr),
+        call(b, expr),
+    ))
     .with(
         {f: $("name"), args: $("args")},
         ({name, args}) => (

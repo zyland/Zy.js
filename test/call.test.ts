@@ -42,6 +42,30 @@ Deno.test("Call - Ref - Nested And", () => {
     )
 })
 
+Deno.test("Call - Ref - Nested Complex", () => {
+    assertEquals(
+        call({call: [{ref: "area"}, {ref: "square"}]},
+            {and: [
+                {def: [
+                    "square",
+                    {and: [
+                        {def: ["w", {literal: 12}]},
+                        {def: ["h", {literal: 5}]},
+                    ]}
+                ]},
+                {def: [
+                    "area",
+                    f({mul: [
+                        {ref: "w"},
+                        {ref: "h"},
+                    ]})
+                ]}
+            ]}
+        ),
+        {literal: 60},
+    )
+})
+
 Deno.test("Call - Join", () => {
     assertEquals(
         call(f({join: [{ref: "a"}, {ref: "b"}]}), {
