@@ -41,6 +41,10 @@ export const call = (query: Expr, expr: Expr): Expr => {
         call(a, expr),
         call(b, expr),
     ))
+    .with({and: [$a, $b]}, ({a, b}) => and(
+        call(a, expr),
+        call(b, expr),
+    ))
     .with(
         {f: $("name"), args: $("args")},
         ({name, args}) => (

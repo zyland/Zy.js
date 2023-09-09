@@ -29,6 +29,25 @@ Deno.test("Arrow - Match Literal", () => {
     )
 })
 
+Deno.test("Arrow - Multiple Match", () => {
+    assertEquals(
+        call(
+            {and: [
+                {arrow: [
+                    {literal: "1"},
+                    {literal: "2"},
+                ]},
+                {arrow: [
+                    {literal: "2"},
+                    {literal: "4"},
+                ]},
+            ]},
+            {literal: "2"},
+        ),
+        {literal: "4"},
+    )
+})
+
 Deno.test("Arrow - Capture", () => {
     assertEquals(
         call(
