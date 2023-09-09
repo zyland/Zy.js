@@ -13,8 +13,8 @@ import { $, $_, $a, $b } from "util/select.ts"
 import { f } from "util/f.ts"
 
 export const call = (query: Expr, expr: Expr): Expr => {
-    return match(query)
-    .with({ref: $_}, name =>
+    return match([query, expr])
+    .with([{ref: $_}, P.any], name =>
         match(expr)
         .with({def: [name, $_]}, value => {
             return value
@@ -27,26 +27,26 @@ export const call = (query: Expr, expr: Expr): Expr => {
         })
         .otherwise(() => any)
     )
-    .with({arrow: [{literal: $a}, $b]}, ({a, b}) =>
+    .with([{arrow: [{literal: $a}, $b]}, P.any], ({a, b}) =>
         match(expr)
         .with({literal: a}, () => b)
         .otherwise(() => any)
     )
-    .with({arrow: [{capture: $a}, $b]}, ({a: [name, _type], b}) => // TODO: Type Checking
+    .with([{arrow: [{capture: $a}, $b]}, P.any], ({a: [name, _type], b}) => // TODO: Type Checking
         match(expr)
         .with($_, () => call(b, {def: [name, expr]}))
         .otherwise(() => any)
     )
-    .with({call: [$a, $b]}, ({a, b}) => call(
+    .with([{call: [$a, $b]}, P.any], ({a, b}) => call(
         call(a, expr),
         call(b, expr),
     ))
-    .with({and: [$a, $b]}, ({a, b}) => and(
+    .with([{and: [$a, $b]}, P.any], ({a, b}) => and(
         call(a, expr),
         call(b, expr),
     ))
     .with(
-        {f: $("name"), args: $("args")},
+        [{f: $("name"), args: $("args")}, P.any],
         ({name, args}) => (
             {
                 join,
@@ -59,5 +59,5 @@ export const call = (query: Expr, expr: Expr): Expr => {
             )
         )
     )
-    .otherwise(q => q)
+    .otherwise(_ => query)
 }
