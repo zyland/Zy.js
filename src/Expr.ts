@@ -7,6 +7,7 @@ export type Expr =
     | {symbol: string}
     | {call: [Expr, Expr]}
     | {arrow: [Expr, Expr]}
+    | {capture: [string, Expr]}
     | {f: string, args: [Expr, Expr]}
 
 export const any = {symbol: "any"}

@@ -32,6 +32,11 @@ export const call = (query: Expr, expr: Expr): Expr => {
         .with({literal: a}, () => b)
         .otherwise(() => any)
     )
+    .with({arrow: [{capture: $a}, $b]}, ({a: [name, _type], b}) => // TODO: Type Checking
+        match(expr)
+        .with($_, () => call(b, {def: [name, expr]}))
+        .otherwise(() => any)
+    )
     .with({call: [$a, $b]}, ({a, b}) => call(
         call(a, expr),
         call(b, expr),

@@ -3,7 +3,7 @@ import {
     assertNotEquals,
 } from "std/assert"
 
-import { call } from "../src/mod.ts"
+import { call, any } from "../src/mod.ts"
 import { f } from "util/f.ts"
 
 Deno.test("Call - Ref - And", () => {
@@ -110,5 +110,18 @@ Deno.test("Call - Arrow - Match Literal", () => {
             {literal: "hell"},
         ),
         {literal: "bye"},
+    )
+})
+
+Deno.test("Call - Arrow - Capture", () => {
+    assertEquals(
+        call(
+            {arrow: [
+                {capture: ["n", any]},
+                f({mul: [{ref: "n"}, {literal: 2}]}),
+            ]},
+            {literal: 123},
+        ),
+        {literal: 246},
     )
 })
