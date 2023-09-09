@@ -60,3 +60,16 @@ Deno.test("Arrow - Capture", () => {
         {literal: 246},
     )
 })
+
+Deno.test("Arrow - Junction", () => {
+    assertEquals(
+        call(
+            {arrow: [
+                {capture: ["n", any]},
+                f({mul: [{ref: "n"}, {literal: 2}]}),
+            ]},
+            {or: [{literal: 10}, {literal: 20}]},
+        ),
+        {or: [{literal: 20}, {literal: 40}]},
+    )
+})

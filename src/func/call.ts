@@ -1,5 +1,6 @@
 import { Expr, any } from "../Expr.ts"
 import { and } from "./and.ts"
+import { or } from "./or.ts"
 import { join } from "./join.ts"
 import {
     add,
@@ -14,6 +15,10 @@ import { f } from "util/f.ts"
 
 export const call = (query: Expr, expr: Expr): Expr => {
     return match([query, expr])
+    .with(
+        [$("q"), {or: [$a, $b]}],
+        ({a, b, q}) => or(call(q, a), call(q, b))
+    )
     .with(
         [{ref: P.any}, {def: [P.any, $_]}],
         ([{ref}, {def: [name, _val]}]) => ref == name,
