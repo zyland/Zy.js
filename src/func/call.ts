@@ -20,8 +20,8 @@ export const call = (query: Expr, expr: Expr): Expr => {
         ({a, b, q}) => or(call(q, a), call(q, b))
     )
     .with(
-        [{ref: P.any}, {def: [P.any, $_]}],
-        ([{ref}, {def: [name, _val]}]) => ref == name,
+        [{ref: P.any}, {def: [{ref: P.any}, $_]}],
+        ([{ref}, {def: [{ref: name}, _val]}]) => ref == name,
         val => val
     )
     .with(
@@ -42,7 +42,7 @@ export const call = (query: Expr, expr: Expr): Expr => {
         [{arrow: [{capture: $a}, $b]}, P.any],
         ({a: [name, _type], b}) => // TODO: Type Checking
         match(expr)
-        .with($_, () => call(b, {def: [name, expr]}))
+        .with($_, () => call(b, {def: [{ref: name}, expr]}))
         .otherwise(() => any)
     )
     .with([{arrow: P.any}, P.any], () => any)

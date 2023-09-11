@@ -76,7 +76,7 @@ Deno.test("Expand - Recursion", () => {
             ]},
         ]}
         assertEquals(
-            Iter(expand({ref: "pat"})({def: ["pat", pat]})).take(10).toArray(),
+            Iter(expand({ref: "pat"})({def: [{ref: "pat"}, pat]})).take(10).toArray(),
             [
                 { literal: "" },
                 { literal: "()" },
@@ -102,11 +102,11 @@ Deno.test("Expand - Join Refs", () => {
                 ]
             })
         )({and: [
-            {def: ["a", {or: [
+            {def: [{ref: "a"}, {or: [
                 {literal: "1"},
                 {literal: "2"},
             ]}]},
-            {def: ["b", {or: [
+            {def: [{ref: "b"}, {or: [
                 {literal: "3"},
                 {literal: "4"},
             ]}]},
