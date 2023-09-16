@@ -1,9 +1,9 @@
 import { Expr } from "./Expr.ts"
-import { call, join } from "./func/mod.ts"
+import { call, expandable } from "./func/mod.ts"
 
 import { match, P } from "ts-pattern"
 import { $ as Iter } from "iteruyo"
-import { $a, $b } from "util/select.ts"
+import { $, $a, $b } from "util/select.ts"
 import { f } from "util/f.ts"
 export * from "iteruyo"
 
@@ -47,11 +47,11 @@ export const expand = (query: Expr) => function*(expr: Expr): Generator<Expr, vo
     yield* match(call(query, expr))
     .with({or: [$a, $b]}, function*({a, b}) {
         yield* match([a, b])
-        .with([{literal: P.string}, P.any], function*() {
+        .with([{literal: P.any}, P.any], function*() {
             yield a
             yield* expand(b)(expr)
         })
-        .with([P.any, {literal: P.string}], function*() {
+        .with([P.any, {literal: P.any}], function*() {
             yield b
             yield* expand(a)(expr)
         })
@@ -62,11 +62,11 @@ export const expand = (query: Expr) => function*(expr: Expr): Generator<Expr, vo
             )
         })
     })
-    .with(f({join: [$a, $b]}), ({a, b}) => {
+    .with({f: $("f"), args: [$a, $b]}, ({f, a, b}) => {
         const aStash = new LazyArray(expand(a)(expr))
         const bStash = new LazyArray(expand(b)(expr))
         return Iter(fill(x => !aStash.at(x), y => !bStash.at(y)))
-            .map(([x, y]) => join(aStash.at(x), bStash.at(y)))
+            .map(([x, y]) => expandable[f](aStash.at(x), bStash.at(y)))
     })
     .otherwise(x => [x])
 }
