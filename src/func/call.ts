@@ -10,8 +10,8 @@ import {
 } from "./math.ts"
 
 import { match, P } from "ts-pattern"
-import { $, $_, $a, $b } from "util/select.ts"
-import { f } from "util/f.ts"
+import { $, $_, $a, $b } from "$util"
+import { f } from "$util"
 
 export const call = (query: Expr, expr: Expr): Expr => {
     return match([query, expr])

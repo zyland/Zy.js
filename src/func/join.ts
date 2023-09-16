@@ -1,8 +1,8 @@
 import { Expr } from "../Expr.ts"
 
 import { match } from "ts-pattern"
-import { str$a, str$b } from "util/select.ts"
-import { f } from "util/f.ts"
+import { str$a, str$b } from "$util"
+import { f } from "$util"
 
 export const join = (a: Expr, b: Expr): Expr =>
     match([a, b])

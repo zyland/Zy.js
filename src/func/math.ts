@@ -1,7 +1,7 @@
 import { Expr } from "../Expr.ts"
 
 import { match } from "ts-pattern"
-import { num$a, num$b } from "util/select.ts"
+import { num$a, num$b } from "$util"
 
 const math =
     (name: string, func: (a: number, b: number) => number) =>
