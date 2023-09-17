@@ -3,7 +3,7 @@ import { call, expandable } from "./func/mod.ts"
 
 import { match, P } from "ts-pattern"
 import { $ as Iter } from "iteruyo"
-import { $, $a, $b, f } from "$util"
+import { $, $a, $b, f } from "./util/mod.ts"
 export * from "iteruyo"
 
 class LazyArray<T> {

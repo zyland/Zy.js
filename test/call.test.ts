@@ -4,7 +4,7 @@ import {
 } from "std/assert"
 
 import { call, any } from "../src/mod.ts"
-import { f } from "$util"
+import { f } from "../src/util/mod.ts"
 
 Deno.test("Call - Ref - And", () => {
     assertEquals(
