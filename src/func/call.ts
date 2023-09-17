@@ -9,8 +9,8 @@ import {
     div,
 } from "./math.ts"
 
-import { match, P } from "ts-pattern"
-import { f, $, $_, $a, $b } from "../util/mod.ts"
+import { match, P } from "../../deps.ts"
+import { $, $_, $a, $b } from "../util/mod.ts"
 
 export const call = (query: Expr, expr: Expr): Expr => {
     return match([query, expr])

@@ -1,6 +1,6 @@
 import { Expr, any } from "../Expr.ts"
 
-import { match } from "ts-pattern"
+import { match } from "../../deps.ts"
 import { $_ } from "../util/mod.ts"
 
 export const or = (a: Expr, b: Expr): Expr =>

@@ -1,7 +1,7 @@
 import { Expr } from "./Expr.ts"
 import { and, call } from "./func/mod.ts"
 
-import { match, P } from "ts-pattern"
+import { match, P } from "../deps.ts"
 import { $, $a, $b } from "./util/mod.ts"
 
 export const run = (expr: Expr): Expr => {

@@ -1,10 +1,10 @@
 import { Expr } from "./Expr.ts"
 import { call, expandable } from "./func/mod.ts"
 
-import { match, P } from "ts-pattern"
-import { $ as Iter } from "iteruyo"
+import { match, P } from "../deps.ts"
+import { Iter } from "../deps.ts"
 import { $, $a, $b, f } from "./util/mod.ts"
-export * from "iteruyo"
+export * from "../deps.ts"
 
 class LazyArray<T> {
     memory: T[] = []

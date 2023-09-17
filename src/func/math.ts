@@ -1,6 +1,6 @@
 import { Expr } from "../Expr.ts"
 
-import { match } from "ts-pattern"
+import { match } from "../../deps.ts"
 import { num$a, num$b } from "../util/mod.ts"
 
 const math =

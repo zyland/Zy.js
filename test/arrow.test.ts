@@ -1,7 +1,7 @@
 import {
     assertEquals,
     assertNotEquals,
-} from "std/assert"
+} from "../deps.ts"
 
 import { call, any } from "../src/mod.ts"
 import { f } from "../src/util/mod.ts"

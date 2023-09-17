@@ -1,4 +1,4 @@
-import { P } from "ts-pattern"
+import { P } from "../../deps.ts"
 
 export const $ = P.select
 export const $_ = $()

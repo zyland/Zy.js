@@ -1,6 +1,6 @@
-import { assertEquals } from "std/assert"
+import { assertEquals } from "../deps.ts"
 
-import { Expr, expand, $ as Iter, any } from "../src/mod.ts"
+import { Expr, expand, Iter, any } from "../src/mod.ts"
 import { f } from "../src/util/mod.ts"
 
 Deno.test("Expand - Literal", () => {

@@ -1,6 +1,6 @@
 import { Expr } from "../Expr.ts"
 
-import { match } from "ts-pattern"
+import { match } from "../../deps.ts"
 import { f, str$a, str$b } from "../util/mod.ts"
 
 export const join = (a: Expr, b: Expr): Expr =>
