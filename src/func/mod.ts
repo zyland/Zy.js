@@ -1,6 +1,7 @@
 export * from "./and.ts"
 export * from "./call.ts"
 export * from "./join.ts"
+export * from "./literal.ts"
 export * from "./math.ts"
 export * from "./or.ts"
 
