@@ -2,6 +2,7 @@ import {
     assertEquals,
     assertNotEquals,
 } from "../deps.ts"
+import { mul } from "../mod.ts";
 
 import {
     call,
@@ -68,10 +69,10 @@ Deno.test("Call - Ref - Nested Complex", () => {
                 ),
                 def(
                     ref("area"),
-                    f({mul: [
+                    mul(
                         ref("w"),
                         ref("h"),
-                    ]})
+                    )
                 )
             )
         ),
@@ -95,7 +96,7 @@ Deno.test("Call - Join", () => {
 Deno.test("Call - Math", () => {
     assertEquals(
         call(
-            f({mul: [ref("a"), ref("b")]}),
+            mul(ref("a"), ref("b")),
             and(
                 def(ref("a"), literal(12)),
                 def(ref("b"), literal(5)),
