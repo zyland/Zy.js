@@ -7,6 +7,7 @@ import {
     Iter,
     any,
 
+    add,
     join,
     literal,
     or,
@@ -86,16 +87,16 @@ Deno.test("Expand - Recursion", () => {
         assertEquals(
             Iter(expand(ref("pat"))(def(ref("pat"), pat))).take(10).toArray(),
             [
-                { literal: "" },
-                { literal: "()" },
-                { literal: "x" },
-                { literal: "(())" },
-                { literal: "()x" },
-                { literal: "(x)" },
-                { literal: "-" },
-                { literal: "((()))" },
-                { literal: "()-" },
-                { literal: "(()x)" },
+                literal(""),
+                literal("()"),
+                literal("x"),
+                literal("(())"),
+                literal("()x"),
+                literal("(x)"),
+                literal("-"),
+                literal("((()))"),
+                literal("()-"),
+                literal("(()x)"),
             ],
         )
 })
@@ -132,10 +133,10 @@ Deno.test("Expand - Recursive Math", () => {
             ref("nat"),
             or(
                 literal(1),
-                f({add: [
+                add(
                     ref("nat"),
                     literal(1)
-                ]})
+                )
             )
         ))).take(3).toArray(),
         [
