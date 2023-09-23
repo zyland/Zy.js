@@ -1,4 +1,5 @@
 import { assertEquals } from "../deps.ts"
+import { and } from "../mod.ts";
 
 import {
     Expr,
@@ -106,7 +107,7 @@ Deno.test("Expand - Join Refs", () => {
                 ref("a"),
                 ref("b"),
             )
-        )({and: [
+        )(and(
             def(ref("a"), or(
                 literal("1"),
                 literal("2"),
@@ -115,7 +116,7 @@ Deno.test("Expand - Join Refs", () => {
                 literal("3"),
                 literal("4"),
             )),
-        ]})],
+        ))],
         [
             literal("13"),
             literal("23"),

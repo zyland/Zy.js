@@ -7,6 +7,7 @@ import {
     call,
     any,
     
+    and,
     ref,
     def,
     literal,
@@ -40,7 +41,7 @@ Deno.test("Arrow - Match Literal", () => {
 Deno.test("Arrow - Multiple Match", () => {
     assertEquals(
         call(
-            {and: [
+            and(
                 {arrow: [
                     literal("1"),
                     literal("2"),
@@ -49,7 +50,7 @@ Deno.test("Arrow - Multiple Match", () => {
                     literal("2"),
                     literal("4"),
                 ]},
-            ]},
+            ),
             literal("2"),
         ),
         literal("4"),
