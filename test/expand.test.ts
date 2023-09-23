@@ -9,6 +9,8 @@ import {
     join,
     literal,
     or,
+    ref,
+    def,
 } from "../src/mod.ts"
 import { f } from "../src/util/mod.ts"
 
@@ -67,12 +69,12 @@ Deno.test("Expand - Recursion", () => {
                 join(
                     join(
                         literal("("),
-                        {ref: "pat"},
+                        ref("pat"),
                     ),
                     literal(")"),
                 ),
                 join(
-                    {ref: "pat"},
+                    ref("pat"),
                     or(
                         literal("x"),
                         literal("-"),
@@ -81,7 +83,7 @@ Deno.test("Expand - Recursion", () => {
             ),
         )
         assertEquals(
-            Iter(expand({ref: "pat"})({def: [{ref: "pat"}, pat]})).take(10).toArray(),
+            Iter(expand(ref("pat"))({def: [ref("pat"), pat]})).take(10).toArray(),
             [
                 { literal: "" },
                 { literal: "()" },
@@ -101,15 +103,15 @@ Deno.test("Expand - Join Refs", () => {
     assertEquals(
         [...expand(
             join(
-                {ref: "a"},
-                {ref: "b"},
+                ref("a"),
+                ref("b"),
             )
         )({and: [
-            {def: [{ref: "a"}, or(
+            {def: [ref("a"), or(
                 literal("1"),
                 literal("2"),
             )]},
-            {def: [{ref: "b"}, or(
+            {def: [ref("b"), or(
                 literal("3"),
                 literal("4"),
             )]},
@@ -125,12 +127,12 @@ Deno.test("Expand - Join Refs", () => {
 
 Deno.test("Expand - Recursive Math", () => {
     assertEquals(
-        Iter(expand({ref: "nat"})({def: [
-            {ref: "nat"},
+        Iter(expand(ref("nat"))({def: [
+            ref("nat"),
             or(
                 literal(1),
                 f({add: [
-                    {ref: "nat"},
+                    ref("nat"),
                     literal(1)
                 ]})
             )

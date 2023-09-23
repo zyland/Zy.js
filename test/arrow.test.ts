@@ -7,6 +7,8 @@ import {
     call,
     any,
     
+    ref,
+    def,
     literal,
     or,
 } from "../src/mod.ts"
@@ -59,7 +61,7 @@ Deno.test("Arrow - Capture", () => {
         call(
             {arrow: [
                 {capture: ["n", any]},
-                f({mul: [{ref: "n"}, literal(2)]}),
+                f({mul: [ref("n"), literal(2)]}),
             ]},
             literal(123),
         ),
@@ -72,7 +74,7 @@ Deno.test("Arrow - Junction", () => {
         call(
             {arrow: [
                 {capture: ["n", any]},
-                f({mul: [{ref: "n"}, literal(2)]}),
+                f({mul: [ref("n"), literal(2)]}),
             ]},
             or(literal(10), literal(20)),
         ),

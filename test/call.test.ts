@@ -7,6 +7,8 @@ import {
     call,
     any,
     
+    ref,
+    def,
     join,
     literal,
 } from "../src/mod.ts"
@@ -14,19 +16,19 @@ import { f } from "../src/util/mod.ts"
 
 Deno.test("Call - Ref - And", () => {
     assertEquals(
-        call({ref: "a"}, {
+        call(ref("a"), {
             and: [
-                {def: [{ref: "a"}, literal("hello")]},
-                {def: [{ref: "b"}, literal("world")]},
+                {def: [ref("a"), literal("hello")]},
+                {def: [ref("b"), literal("world")]},
             ]
         }),
         literal("hello"),
     )
     assertEquals(
-        call({ref: "b"}, {
+        call(ref("b"), {
             and: [
-                {def: [{ref: "a"}, literal("hello")]},
-                {def: [{ref: "b"}, literal("world")]},
+                {def: [ref("a"), literal("hello")]},
+                {def: [ref("b"), literal("world")]},
             ]
         }),
         literal("world"),
@@ -35,12 +37,12 @@ Deno.test("Call - Ref - And", () => {
 
 Deno.test("Call - Ref - Nested And", () => {
     assertEquals(
-        call({ref: "b"}, {
+        call(ref("b"), {
             and: [
-                {def: [{ref: "a"}, literal("hello")]},
+                {def: [ref("a"), literal("hello")]},
                 {and: [
-                    {def: [{ref: "b"}, literal("world")]},
-                    {def: [{ref: "c"}, literal("1234")]},
+                    {def: [ref("b"), literal("world")]},
+                    {def: [ref("c"), literal("1234")]},
                 ]}
             ]
         }),
@@ -50,20 +52,20 @@ Deno.test("Call - Ref - Nested And", () => {
 
 Deno.test("Call - Ref - Nested Complex", () => {
     assertEquals(
-        call({call: [{ref: "area"}, {ref: "square"}]},
+        call({call: [ref("area"), ref("square")]},
             {and: [
                 {def: [
-                    {ref: "square"},
+                    ref("square"),
                     {and: [
-                        {def: [{ref: "w"}, literal(12)]},
-                        {def: [{ref: "h"}, literal(5)]},
+                        {def: [ref("w"), literal(12)]},
+                        {def: [ref("h"), literal(5)]},
                     ]}
                 ]},
                 {def: [
-                    {ref: "area"},
+                    ref("area"),
                     f({mul: [
-                        {ref: "w"},
-                        {ref: "h"},
+                        ref("w"),
+                        ref("h"),
                     ]})
                 ]}
             ]}
@@ -74,10 +76,10 @@ Deno.test("Call - Ref - Nested Complex", () => {
 
 Deno.test("Call - Join", () => {
     assertEquals(
-        call(join({ref: "a"}, {ref: "b"}), {
+        call(join(ref("a"), ref("b")), {
             and: [
-                {def: [{ref: "a"}, literal("hello")]},
-                {def: [{ref: "b"}, literal("world")]},
+                {def: [ref("a"), literal("hello")]},
+                {def: [ref("b"), literal("world")]},
             ]
         }),
         literal("helloworld"),
@@ -86,10 +88,10 @@ Deno.test("Call - Join", () => {
 
 Deno.test("Call - Math", () => {
     assertEquals(
-        call(f({mul: [{ref: "a"}, {ref: "b"}]}), {
+        call(f({mul: [ref("a"), ref("b")]}), {
             and: [
-                {def: [{ref: "a"}, literal(12)]},
-                {def: [{ref: "b"}, literal(5)]},
+                {def: [ref("a"), literal(12)]},
+                {def: [ref("b"), literal(5)]},
             ]
         }),
         literal(60),
