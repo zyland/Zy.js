@@ -15,3 +15,7 @@ export const def =
 export const arrow =
     (from: Expr, to: Expr): Expr =>
     ({arrow: [from, to]})
+
+export const capture =
+    (name: string, type: Expr): Expr =>
+    ({capture: [name, type]})

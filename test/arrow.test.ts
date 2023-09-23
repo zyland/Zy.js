@@ -9,6 +9,7 @@ import {
     
     and,
     arrow,
+    capture,
     ref,
     def,
     literal,
@@ -62,7 +63,7 @@ Deno.test("Arrow - Capture", () => {
     assertEquals(
         call(
             arrow(
-                {capture: ["n", any]},
+                capture("n", any),
                 f({mul: [ref("n"), literal(2)]}),
             ),
             literal(123),
@@ -75,7 +76,7 @@ Deno.test("Arrow - Junction", () => {
     assertEquals(
         call(
             arrow(
-                {capture: ["n", any]},
+                capture("n", any),
                 f({mul: [ref("n"), literal(2)]}),
             ),
             or(literal(10), literal(20)),
