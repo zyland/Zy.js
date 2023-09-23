@@ -18,8 +18,8 @@ Deno.test("Call - Ref - And", () => {
     assertEquals(
         call(ref("a"), {
             and: [
-                {def: [ref("a"), literal("hello")]},
-                {def: [ref("b"), literal("world")]},
+                def(ref("a"), literal("hello")),
+                def(ref("b"), literal("world")),
             ]
         }),
         literal("hello"),
@@ -27,8 +27,8 @@ Deno.test("Call - Ref - And", () => {
     assertEquals(
         call(ref("b"), {
             and: [
-                {def: [ref("a"), literal("hello")]},
-                {def: [ref("b"), literal("world")]},
+                def(ref("a"), literal("hello")),
+                def(ref("b"), literal("world")),
             ]
         }),
         literal("world"),
@@ -39,10 +39,10 @@ Deno.test("Call - Ref - Nested And", () => {
     assertEquals(
         call(ref("b"), {
             and: [
-                {def: [ref("a"), literal("hello")]},
+                def(ref("a"), literal("hello")),
                 {and: [
-                    {def: [ref("b"), literal("world")]},
-                    {def: [ref("c"), literal("1234")]},
+                    def(ref("b"), literal("world")),
+                    def(ref("c"), literal("1234")),
                 ]}
             ]
         }),
@@ -57,8 +57,8 @@ Deno.test("Call - Ref - Nested Complex", () => {
                 {def: [
                     ref("square"),
                     {and: [
-                        {def: [ref("w"), literal(12)]},
-                        {def: [ref("h"), literal(5)]},
+                        def(ref("w"), literal(12)),
+                        def(ref("h"), literal(5)),
                     ]}
                 ]},
                 {def: [
@@ -78,8 +78,8 @@ Deno.test("Call - Join", () => {
     assertEquals(
         call(join(ref("a"), ref("b")), {
             and: [
-                {def: [ref("a"), literal("hello")]},
-                {def: [ref("b"), literal("world")]},
+                def(ref("a"), literal("hello")),
+                def(ref("b"), literal("world")),
             ]
         }),
         literal("helloworld"),
@@ -90,8 +90,8 @@ Deno.test("Call - Math", () => {
     assertEquals(
         call(f({mul: [ref("a"), ref("b")]}), {
             and: [
-                {def: [ref("a"), literal(12)]},
-                {def: [ref("b"), literal(5)]},
+                def(ref("a"), literal(12)),
+                def(ref("b"), literal(5)),
             ]
         }),
         literal(60),

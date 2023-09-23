@@ -9,5 +9,5 @@ export const ref =
     ({ref: name})
 
 export const def =
-    (name: string, expr: Expr) =>
+    (name: Expr, expr: Expr): Expr =>
     ({def: [name, expr]})

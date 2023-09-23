@@ -83,7 +83,7 @@ Deno.test("Expand - Recursion", () => {
             ),
         )
         assertEquals(
-            Iter(expand(ref("pat"))({def: [ref("pat"), pat]})).take(10).toArray(),
+            Iter(expand(ref("pat"))(def(ref("pat"), pat))).take(10).toArray(),
             [
                 { literal: "" },
                 { literal: "()" },
