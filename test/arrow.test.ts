@@ -8,6 +8,7 @@ import {
     any,
     
     literal,
+    or,
 } from "../src/mod.ts"
 import { f } from "../src/util/mod.ts"
 
@@ -73,8 +74,8 @@ Deno.test("Arrow - Junction", () => {
                 {capture: ["n", any]},
                 f({mul: [{ref: "n"}, literal(2)]}),
             ]},
-            {or: [literal(10), literal(20)]},
+            or(literal(10), literal(20)),
         ),
-        {or: [literal(20), literal(40)]},
+        or(literal(20), literal(40)),
     )
 })

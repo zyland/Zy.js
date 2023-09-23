@@ -22,10 +22,10 @@ Deno.test("Expand - Literal", () => {
 Deno.test("Expand - Or", () => {
     assertEquals(
         [...expand(
-            {or: [
+            or(
                 literal("a"),
                 literal("b"),
-            ]}
+            )
         )(any)],
         [
             literal("a"),
@@ -39,14 +39,14 @@ Deno.test("Expand - Join", () => {
         [...expand(
             f({
                 join: [
-                    {or: [
+                    or(
                         literal("1"),
                         literal("2"),
-                    ]},
-                    {or: [
+                    ),
+                    or(
                         literal("3"),
                         literal("4"),
-                    ]},
+                    ),
                 ]
             })
         )(any)],
@@ -61,9 +61,9 @@ Deno.test("Expand - Join", () => {
 
 Deno.test("Expand - Recursion", () => {
     const pat: Expr =
-        {or: [
+        or(
             literal(""),
-            {or: [
+            or(
                 f({join: [
                     f({join:
                         [
@@ -75,13 +75,13 @@ Deno.test("Expand - Recursion", () => {
                 ]}),
                 f({join: [
                     {ref: "pat"},
-                    {or: [
+                    or(
                         literal("x"),
                         literal("-"),
-                    ]},
+                    ),
                 ]}),
-            ]},
-        ]}
+            ),
+        )
         assertEquals(
             Iter(expand({ref: "pat"})({def: [{ref: "pat"}, pat]})).take(10).toArray(),
             [
@@ -109,14 +109,14 @@ Deno.test("Expand - Join Refs", () => {
                 ]
             })
         )({and: [
-            {def: [{ref: "a"}, {or: [
+            {def: [{ref: "a"}, or(
                 literal("1"),
                 literal("2"),
-            ]}]},
-            {def: [{ref: "b"}, {or: [
+            )]},
+            {def: [{ref: "b"}, or(
                 literal("3"),
                 literal("4"),
-            ]}]},
+            )]},
         ]})],
         [
             literal("13"),
@@ -131,13 +131,13 @@ Deno.test("Expand - Recursive Math", () => {
     assertEquals(
         Iter(expand({ref: "nat"})({def: [
             {ref: "nat"},
-            {or: [
+            or(
                 literal(1),
                 f({add: [
                     {ref: "nat"},
                     literal(1)
                 ]})
-            ]}
+            )
             
         ]})).take(3).toArray(),
         [
