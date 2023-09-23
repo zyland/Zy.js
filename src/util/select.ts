@@ -8,3 +8,10 @@ export const str$a = $("a", P.string)
 export const str$b = $("b", P.string)
 export const num$a = $("a", P.number)
 export const num$b = $("b", P.number)
+export const commu =
+    <A, B>
+    ([a, b]: [A, B]) =>
+    P.union(
+        [a, b],
+        [b, a],
+    )

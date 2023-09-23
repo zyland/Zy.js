@@ -275,3 +275,23 @@ Deno.test("Expand - Recursive Math", () => {
         ],
     )
 })
+
+Deno.test("Expand - Logic", () => {
+    assertEquals(
+        Iter(
+            expand(
+                and(
+                    or(
+                        literal(1),
+                        literal(2),
+                    ),
+                    or(
+                        literal(2),
+                        literal(3),
+                    ),
+                )
+            )(any)
+        ).toArray(),
+        [literal(2)]
+    )
+})

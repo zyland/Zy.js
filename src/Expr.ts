@@ -11,3 +11,4 @@ export type Expr =
     | {f: string, args: [Expr, Expr]}
 
 export const any = {symbol: "any"}
+export const non = {symbol: "non"}
