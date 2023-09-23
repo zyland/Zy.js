@@ -7,6 +7,7 @@ import {
     call,
     any,
     
+    join,
     literal,
 } from "../src/mod.ts"
 import { f } from "../src/util/mod.ts"
@@ -73,7 +74,7 @@ Deno.test("Call - Ref - Nested Complex", () => {
 
 Deno.test("Call - Join", () => {
     assertEquals(
-        call(f({join: [{ref: "a"}, {ref: "b"}]}), {
+        call(join({ref: "a"}, {ref: "b"}), {
             and: [
                 {def: [{ref: "a"}, literal("hello")]},
                 {def: [{ref: "b"}, literal("world")]},

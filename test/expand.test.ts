@@ -5,6 +5,8 @@ import {
     expand,
     Iter,
     any,
+
+    join,
     literal,
     or,
 } from "../src/mod.ts"
@@ -64,22 +66,20 @@ Deno.test("Expand - Recursion", () => {
         or(
             literal(""),
             or(
-                f({join: [
-                    f({join:
-                        [
-                            literal("("),
-                            {ref: "pat"},
-                        ]
-                    }),
+                join(
+                    join(
+                        literal("("),
+                        {ref: "pat"},
+                    ),
                     literal(")"),
-                ]}),
-                f({join: [
+                ),
+                join(
                     {ref: "pat"},
                     or(
                         literal("x"),
                         literal("-"),
                     ),
-                ]}),
+                ),
             ),
         )
         assertEquals(
