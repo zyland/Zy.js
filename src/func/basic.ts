@@ -11,3 +11,7 @@ export const ref =
 export const def =
     (name: Expr, expr: Expr): Expr =>
     ({def: [name, expr]})
+
+export const arrow =
+    (from: Expr, to: Expr): Expr =>
+    ({arrow: [from, to]})
