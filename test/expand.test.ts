@@ -8,8 +8,12 @@ import {
     any,
 
     add,
+    arrow,
+    call,
+    capture,
     join,
     literal,
+    sub,
     or,
     ref,
     def,
@@ -64,7 +68,7 @@ Deno.test("Expand - Join", () => {
 })
 
 Deno.test("Expand - Recursion", () => {
-    const pat: Expr =
+    const pat =
         or(
             literal(""),
             or(
@@ -84,23 +88,148 @@ Deno.test("Expand - Recursion", () => {
                 ),
             ),
         )
-        assertEquals(
-            Iter(expand(ref("pat"))(def(ref("pat"), pat))).take(10).toArray(),
-            [
-                literal(""),
-                literal("()"),
-                literal("x"),
-                literal("(())"),
-                literal("()x"),
-                literal("(x)"),
-                literal("-"),
-                literal("((()))"),
-                literal("()-"),
-                literal("(()x)"),
-            ],
-        )
+    assertEquals(
+        Iter(expand(ref("pat"))(def(ref("pat"), pat))).take(10).toArray(),
+        [
+            literal(""),
+            literal("()"),
+            literal("x"),
+            literal("(())"),
+            literal("()x"),
+            literal("(x)"),
+            literal("-"),
+            literal("((()))"),
+            literal("()-"),
+            literal("(()x)"),
+        ],
+    )
 })
 
+Deno.test("Expand - Recursion With External Function", () => {
+    const paren =
+        arrow(
+            capture("pat", any),
+            join(
+                join(
+                    literal("("),
+                    ref("pat"),
+                ),
+                literal(")"),
+            )
+        )
+    const pat =
+        or(
+            literal(""),
+            or(
+                join(
+                    join(
+                        literal("("),
+                        ref("pat"),
+                    ),
+                    literal(")"),
+                ),
+                join(
+                    ref("pat"),
+                    or(
+                        literal("x"),
+                        literal("-"),
+                    ),
+                ),
+            ),
+        )
+    const expr =
+        and(
+            def(
+                ref("pat"),
+                pat,
+            ),
+            def(
+                ref("paren"),
+                paren,
+            ),
+        )
+    assertEquals(
+        Iter(expand(ref("pat"))(expr)).take(10).toArray(),
+        [
+            literal(""),
+            literal("()"),
+            literal("x"),
+            literal("(())"),
+            literal("()x"),
+            literal("(x)"),
+            literal("-"),
+            literal("((()))"),
+            literal("()-"),
+            literal("(()x)"),
+        ],
+    )
+})
+/*
+Deno.test("Expand - Recursion", () => {
+    const pat_0 =
+        arrow(
+            literal(1),
+            literal(""),
+        )
+    const pat_n =
+        arrow(
+            capture("n", any),
+            or(
+                join(
+                    join(
+                        literal("("),
+                        call(
+                            ref("pat"),
+                            sub(ref("n"), literal(1))
+                        ),
+                    ),
+                    literal(")"),
+                ),
+                join(
+                    call(
+                        ref("pat"),
+                        sub(ref("n"), literal(1))
+                    ),
+                    or(
+                        literal("x"),
+                        literal("-"),
+                    ),
+                ),
+            ),
+        )
+    const pat = and(
+        pat_0,
+        pat_n,
+    )
+    const result =
+        Iter(
+            expand
+                (
+                    call(
+                        ref("pat"),
+                        literal("0"),
+                    )
+                )
+                (def(ref("pat"), pat))
+        ).toArray()
+        
+    assertEquals(
+        result,
+        [
+            literal(""),
+            literal("()"),
+            literal("x"),
+            literal("(())"),
+            literal("()x"),
+            literal("(x)"),
+            literal("-"),
+            literal("((()))"),
+            literal("()-"),
+            literal("(()x)"),
+        ],
+    )
+})
+*/
 Deno.test("Expand - Join Refs", () => {
     assertEquals(
         [...expand(
