@@ -39,18 +39,16 @@ Deno.test("Expand - Or", () => {
 Deno.test("Expand - Join", () => {
     assertEquals(
         [...expand(
-            f({
-                join: [
-                    or(
-                        literal("1"),
-                        literal("2"),
-                    ),
-                    or(
-                        literal("3"),
-                        literal("4"),
-                    ),
-                ]
-            })
+            join(
+                or(
+                    literal("1"),
+                    literal("2"),
+                ),
+                or(
+                    literal("3"),
+                    literal("4"),
+                ),
+            )
         )(any)],
         [
             literal("13"),
@@ -102,12 +100,10 @@ Deno.test("Expand - Recursion", () => {
 Deno.test("Expand - Join Refs", () => {
     assertEquals(
         [...expand(
-            f({
-                join: [
-                    {ref: "a"},
-                    {ref: "b"},
-                ]
-            })
+            join(
+                {ref: "a"},
+                {ref: "b"},
+            )
         )({and: [
             {def: [{ref: "a"}, or(
                 literal("1"),
