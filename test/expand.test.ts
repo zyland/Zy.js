@@ -107,14 +107,14 @@ Deno.test("Expand - Join Refs", () => {
                 ref("b"),
             )
         )({and: [
-            {def: [ref("a"), or(
+            def(ref("a"), or(
                 literal("1"),
                 literal("2"),
-            )]},
-            {def: [ref("b"), or(
+            )),
+            def(ref("b"), or(
                 literal("3"),
                 literal("4"),
-            )]},
+            )),
         ]})],
         [
             literal("13"),
@@ -127,7 +127,7 @@ Deno.test("Expand - Join Refs", () => {
 
 Deno.test("Expand - Recursive Math", () => {
     assertEquals(
-        Iter(expand(ref("nat"))({def: [
+        Iter(expand(ref("nat"))(def(
             ref("nat"),
             or(
                 literal(1),
@@ -136,8 +136,7 @@ Deno.test("Expand - Recursive Math", () => {
                     literal(1)
                 ]})
             )
-            
-        ]})).take(3).toArray(),
+        ))).take(3).toArray(),
         [
             literal(1),
             literal(2),

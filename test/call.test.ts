@@ -54,20 +54,20 @@ Deno.test("Call - Ref - Nested Complex", () => {
     assertEquals(
         call({call: [ref("area"), ref("square")]},
             {and: [
-                {def: [
+                def(
                     ref("square"),
                     {and: [
                         def(ref("w"), literal(12)),
                         def(ref("h"), literal(5)),
                     ]}
-                ]},
-                {def: [
+                ),
+                def(
                     ref("area"),
                     f({mul: [
                         ref("w"),
                         ref("h"),
                     ]})
-                ]}
+                )
             ]}
         ),
         literal(60),
