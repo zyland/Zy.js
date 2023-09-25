@@ -15,6 +15,9 @@ import {
     def,
     literal,
     or,
+
+    num,
+    str,
 } from "../src/mod.ts"
 import { f } from "../src/util/mod.ts"
 
@@ -83,5 +86,28 @@ Deno.test("Arrow - Junction", () => {
             or(literal(10), literal(20)),
         ),
         or(literal(20), literal(40)),
+    )
+})
+
+Deno.test("Arrow - Typed Capture", () => {
+    assertEquals(
+        call(
+            arrow(
+                capture("n", num),
+                mul(ref("n"), literal(2)),
+            ),
+            literal(123),
+        ),
+        literal(246),
+    )
+    assertEquals(
+        call(
+            arrow(
+                capture("n", str),
+                mul(ref("n"), literal(2)),
+            ),
+            literal(123),
+        ),
+        any,
     )
 })

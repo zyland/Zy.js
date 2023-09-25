@@ -1,4 +1,4 @@
-import { Expr, any } from "../Expr.ts"
+import { Expr, any, non } from "../Expr.ts"
 import { and } from "./and.ts"
 import { or } from "./or.ts"
 import { join } from "./join.ts"
@@ -10,10 +10,11 @@ import {
 } from "./math.ts"
 
 import { match, P } from "../../deps.ts"
-import { $, $_, $a, $b } from "../util/mod.ts"
+import { $, $_, $a, $b, commu } from "../util/mod.ts"
 
 export const call = (query: Expr, expr: Expr): Expr => {
     return match([query, expr])
+    .with([P.any, non], () => any)
     .with(
         [$("q"), {or: [$a, $b]}],
         ({a, b, q}) => or(call(q, a), call(q, b))
@@ -39,9 +40,12 @@ export const call = (query: Expr, expr: Expr): Expr => {
     )
     .with(
         [{arrow: [{capture: $a}, $b]}, P.any],
-        ({a: [name, _type], b}) => // TODO: Type Checking
+        ({a: [name, type], b}) => // TODO: Type Checking
         match(expr)
-        .with($_, () => call(b, {def: [{ref: name}, expr]}))
+        .with($_, () => call(b, {def: [
+            {ref: name},
+            and(expr, type),
+        ]}))
         .otherwise(() => any)
     )
     .with([{arrow: P.any}, P.any], () => any)
@@ -54,9 +58,13 @@ export const call = (query: Expr, expr: Expr): Expr => {
         call(b, expr),
     ))
     .with(
+        [{f: P.any, args: commu([non, P.any])}, P.any],
+        () => any
+    )
+    .with(
         [{f: $("name"), args: $("args")}, P.any],
-        ({name, args}) => (
-            {
+        ({name, args}) => {
+            return {
                 join,
                 add,
                 sub,
@@ -65,7 +73,7 @@ export const call = (query: Expr, expr: Expr): Expr => {
             }[name as "join"](
                 ...args.map(arg => call(arg, expr)) as typeof args
             )
-        )
+        }
     )
     .with(
         [{js_arrow: $("f")}, $a],

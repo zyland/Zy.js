@@ -18,20 +18,13 @@ import {
     js_arrow,
     guard,
     non,
+    num,
 } from "../src/mod.ts"
 
 Deno.test("Guard - Number", () => {
     assertEquals(
         and(
-            guard(
-                js_arrow(
-                    x =>
-                        ("literal" in x &&
-                        typeof x?.literal == "number")
-                            ? x
-                            : non
-                )
-            ),
+            num,
             or(
                 literal(123),
                 literal("456"),
