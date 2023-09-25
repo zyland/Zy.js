@@ -67,5 +67,9 @@ export const call = (query: Expr, expr: Expr): Expr => {
             )
         )
     )
+    .with(
+        [{js_arrow: $("f")}, $a],
+        ({f, a}) => f(a)
+    )
     .otherwise(_ => query)
 }

@@ -19,3 +19,11 @@ export const arrow =
 export const capture =
     (name: string, type: Expr): Expr =>
     ({capture: [name, type]})
+
+export const guard =
+    (f: Expr) =>
+    ({guard: f})
+
+export const js_arrow =
+    (f: (x: Expr) => Expr) =>
+    ({js_arrow: f})

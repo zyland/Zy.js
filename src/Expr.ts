@@ -8,6 +8,8 @@ export type Expr =
     | {call: [Expr, Expr]}
     | {arrow: [Expr, Expr]}
     | {capture: [string, Expr]}
+    | {guard: Expr}
+    | {js_arrow: (x: Expr) => Expr}
     | {f: string, args: [Expr, Expr]}
 
 export const any = {symbol: "any"}

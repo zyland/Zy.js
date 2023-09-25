@@ -3,6 +3,7 @@ import { Expr, any, non } from "../Expr.ts"
 import { match, P } from "../../deps.ts"
 import { $, $a, $b, commu } from "../util/mod.ts"
 
+import { call } from "./call.ts"
 import { or } from "./or.ts"
 
 export const and = (a: Expr, b: Expr): Expr =>
@@ -26,6 +27,13 @@ export const and = (a: Expr, b: Expr): Expr =>
                 ? {literal: a}
                 : non
         }
+    )
+    .with(
+        commu([
+            {guard: $a},
+            $b,
+        ]),
+        ({a, b}) => call(a!, b!)
     )
     .with(commu([P.any, non]), () => non)
     .with(commu([$a, any]), ({a}) => a!)
