@@ -10,9 +10,9 @@ import {
 } from "./math.ts"
 
 import { match, P } from "../../deps.ts"
-import { $, $_, $a, $b, commu } from "../util/mod.ts"
+import { $, $_, $a, $b, commu, toString } from "../util/mod.ts"
 
-export const call = (query: Expr, expr: Expr): Expr => {
+export const call_ = (query: Expr, expr: Expr): Expr => {
     return match([query, expr])
     .with([P.any, non], () => any)
     .with(
@@ -32,7 +32,11 @@ export const call = (query: Expr, expr: Expr): Expr => {
                 call({ref: name}, b),
             )
     )
-    .with([{ref: P.any}, P.any], () => any)
+    .with(
+        [{ref: P.any}, P.any],
+        (): Expr => ({call: [query, expr]})
+        // () => any
+    )
     .with(
         [{arrow: [{literal: P.any}, $_]}, {literal: P.any}],
         ([{arrow: [{literal: a1}, _]}, {literal: a2}]) => a1 == a2,
@@ -40,7 +44,7 @@ export const call = (query: Expr, expr: Expr): Expr => {
     )
     .with(
         [{arrow: [{capture: $a}, $b]}, P.any],
-        ({a: [name, type], b}) => // TODO: Type Checking
+        ({a: [name, type], b}) =>
         match(expr)
         .with($_, () => call(b, {def: [
             {ref: name},
@@ -80,4 +84,18 @@ export const call = (query: Expr, expr: Expr): Expr => {
         ({f, a}) => f(a)
     )
     .otherwise(_ => query)
+}
+
+let depth = 0
+
+export const call = (query: Expr, expr: Expr): Expr => {
+    if (depth > 100) throw "STACKOVERFLOW"
+    depth++
+    const result = call_(query, expr)
+    console.log("call", depth)
+    console.log("   ", toString(query))
+    console.log("   ", toString(expr))
+    console.log("    =", toString(result))
+    depth--
+    return result
 }

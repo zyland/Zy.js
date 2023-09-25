@@ -1,22 +1,22 @@
 import { guard, js_arrow } from "../func/basic.ts"
-import { Expr, non } from "../Expr.ts"
+import { non } from "../Expr.ts"
 
-const predicate =
-    (check: (x: Expr) => boolean) =>
+export const predicate =
+    (check: (x: string | number) => boolean) =>
     guard(
         js_arrow(
-            x => check(x) ? x : non
+            x => ("literal" in x && check(x.literal))
+                ? x
+                : non
         )
     )
 
 export const num = 
     predicate(x =>
-        "literal" in x &&
-        typeof x?.literal == "number"
+        typeof x == "number"
     )
 
 export const str = 
     predicate(x =>
-        "literal" in x &&
-        typeof x?.literal == "string"
+        typeof x == "string"
     )
