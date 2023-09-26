@@ -1,4 +1,4 @@
-import { Expr, any, non } from "../Expr.ts"
+import { Expr, any, non, und } from "../Expr.ts"
 
 import { match, P } from "../../deps.ts"
 import { $, $a, $b, commu } from "../util/mod.ts"
@@ -35,6 +35,7 @@ export const and = (a: Expr, b: Expr): Expr =>
         ]),
         ({a, b}) => call(a!, b!)
     )
-    .with(commu([P.any, non]), () => non)
     .with(commu([$a, any]), ({a}) => a!)
+    .with(commu([P.any, non]), () => non)
+    .with(commu([$a, und]), ({a}) => a!)
     .otherwise(_ => ({and: [a, b]}))

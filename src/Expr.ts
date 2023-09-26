@@ -19,3 +19,4 @@ export type Expr =
 
 export const any = {symbol: "any"}
 export const non = {symbol: "non"}
+export const und = {symbol: "und"}

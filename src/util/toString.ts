@@ -43,29 +43,17 @@ export const toString =
     .with(
         {and: [$a, $b]},
         ({a, b}) =>
-            `and(${
-                toString(a)
-            }, ${
-                toString(b)
-            })`
+            `(${toString(a)} & ${toString(b)})`
     )
     .with(
         {call: [$a, $b]},
         ({a, b}) =>
-            `call(${
-                toString(a)
-            }, ${
-                toString(b)
-            })`
+            `(${toString(a)} ${toString(b)})`
     )
     .with(
         {arrow: [$a, $b]},
         ({a, b}) =>
-            `arrow(${
-                toString(a)
-            }, ${
-                toString(b)
-            })`
+            `(${toString(a)} -> ${toString(b)})`
     )
     
     .with(

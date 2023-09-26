@@ -73,9 +73,9 @@ Deno.test("Fibonacci", () => {
         call(
             call(
                 ref("fib"),
-                def(ref("fib"), fib),
+                literal(2),
             ),
-            literal(1),
+            def(ref("fib"), fib),
         ),
         literal(1),
     )

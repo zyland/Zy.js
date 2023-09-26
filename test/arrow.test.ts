@@ -6,6 +6,7 @@ import {
 import {
     call,
     any,
+    und,
     
     and,
     arrow,
@@ -108,6 +109,6 @@ Deno.test("Arrow - Typed Capture", () => {
             ),
             literal(123),
         ),
-        any,
+        und,
     )
 })
